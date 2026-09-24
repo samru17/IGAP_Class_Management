@@ -1,97 +1,224 @@
 import streamlit as st
 
+# =========================================================
+# PAGE CONFIG
+# =========================================================
+
 st.set_page_config(
     page_title="IGAP Class Management System",
     page_icon="🎓",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
-st.title("🎓 IGAP Class Management System")
+# =========================================================
+# CUSTOM CSS
+# =========================================================
 
-st.write("Welcome to IGAP Private Limited")
+st.markdown("""
+<style>
 
-st.sidebar.title("Menu")
+.stApp {
+    background-color: #f3f6fb;
+}
 
-option = st.sidebar.selectbox(
-    "Select Section",
-    [
-        "Home",
-        "Students",
-        "Teachers",
-        "Classes",
-        "Subjects",
-        "Attendance",
-        "Exams",
-        "Results",
-        "Student Performance Prediction"
-    ]
-)
+/* Top Navigation */
+.navbar {
+    background-color: #24428d;
+    padding: 18px 20px;
+    text-align: center;
+    margin: -60px -60px 35px -60px;
+}
 
-if option == "Home":
-    st.header("🏫 IGAP Private Limited")
-    st.write("Class Management System")
-    st.success("Welcome to IGAP Class Management System!")
+.navbar span {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 17px;
+}
 
-elif option == "Students":
-    st.header("👨‍🎓 Students")
-    st.info("Student management section")
+/* Main Dashboard Box */
+.dashboard-box {
+    background-color: white;
+    padding: 55px 35px;
+    border-radius: 20px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.10);
+    margin-bottom: 30px;
+}
 
-elif option == "Teachers":
-    st.header("👨‍🏫 Teachers")
-    st.info("Teacher management section")
+.dashboard-title {
+    color: #24428d;
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
 
-elif option == "Classes":
-    st.header("📚 Classes")
-    st.info("Class management section")
+.dashboard-subtitle {
+    color: #222;
+    font-size: 21px;
+}
 
-elif option == "Subjects":
-    st.header("📖 Subjects")
-    st.info("Subject management section")
+/* Cards */
+.card {
+    background-color: white;
+    height: 105px;
+    border-radius: 18px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    color: #111;
+    margin-bottom: 25px;
+    border: 1px solid #eeeeee;
+}
 
-elif option == "Attendance":
-    st.header("📝 Attendance")
-    st.info("Attendance management section")
+/* Footer */
+.footer {
+    background-color: #24428d;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    margin: 50px -60px -60px -60px;
+    font-size: 19px;
+}
 
-elif option == "Exams":
-    st.header("📋 Exams")
-    st.info("Exam management section")
+</style>
+""", unsafe_allow_html=True)
 
-elif option == "Results":
-    st.header("📊 Results")
-    st.info("Result management section")
 
-elif option == "Student Performance Prediction":
-    st.header("🎯 Student Performance Prediction")
+# =========================================================
+# TOP NAVIGATION
+# =========================================================
 
-    study_hours = st.number_input(
-        "Study Hours",
-        min_value=0.0,
-        max_value=15.0,
-        value=5.0
-    )
+st.markdown("""
+<div class="navbar">
+    <span>Home</span>
+    <span>Dashboard</span>
+    <span>Students</span>
+    <span>Teachers</span>
+    <span>Classes</span>
+    <span>Subjects</span>
+    <span>Attendance</span>
+    <span>Exams</span>
+    <span>Results</span>
+</div>
+""", unsafe_allow_html=True)
 
-    attendance = st.number_input(
-        "Attendance (%)",
-        min_value=0.0,
-        max_value=100.0,
-        value=75.0
-    )
 
-    previous_marks = st.number_input(
-        "Previous Marks (%)",
-        min_value=0.0,
-        max_value=100.0,
-        value=60.0
-    )
+# =========================================================
+# DASHBOARD HEADER
+# =========================================================
 
-    if st.button("🔮 Predict"):
-        score = (
-            study_hours * 5
-            + attendance * 0.3
-            + previous_marks * 0.2
-        )
+st.markdown("""
+<div class="dashboard-box">
 
-        if score >= 50:
-            st.success("🎉 Student is likely to PASS!")
-        else:
-            st.error("⚠️ Student is likely to FAIL!")
+<div class="dashboard-title">
+📊 Dashboard
+</div>
+
+<div class="dashboard-subtitle">
+IGAP Private Limited - Class Management System
+</div>
+
+</div>
+""", unsafe_allow_html=True)
+
+
+# =========================================================
+# FIRST ROW
+# =========================================================
+
+col1, col2, col3, col4, col5 = st.columns(5)
+
+with col1:
+    st.markdown("""
+    <div class="card">
+    👨‍🎓 Students
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+    <div class="card">
+    👨‍🏫 Teachers
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown("""
+    <div class="card">
+    📚 Classes
+    </div>
+    """, unsafe_allow_html=True)
+
+with col4:
+    st.markdown("""
+    <div class="card">
+    📖 Subjects
+    </div>
+    """, unsafe_allow_html=True)
+
+with col5:
+    st.markdown("""
+    <div class="card">
+    📝 Attendance
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# =========================================================
+# SECOND ROW
+# =========================================================
+
+col1, col2, col3, col4, col5 = st.columns(5)
+
+with col1:
+    st.markdown("""
+    <div class="card">
+    📋 Exams
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+    <div class="card">
+    📊 Results
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown("""
+    <div class="card">
+    🎯 Prediction
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# =========================================================
+# INFORMATION SECTION
+# =========================================================
+
+st.markdown("## 🏫 IGAP Private Limited")
+
+st.info("""
+Welcome to IGAP Private Limited Class Management System.
+
+This system is designed to manage students, teachers, classes,
+subjects, attendance, examinations and academic results
+in one place.
+""")
+
+
+# =========================================================
+# FOOTER
+# =========================================================
+
+st.markdown("""
+<div class="footer">
+
+© 2026 IGAP Private Limited<br><br>
+Class Management System
+
+</div>
+""", unsafe_allow_html=True)
