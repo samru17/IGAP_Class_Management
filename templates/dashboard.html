@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>📊 Dashboard</h1>
+    <p>IGAP Private Limited - Class Management System</p>
+</div>
+
+<div class="dashboard-grid">
+
+    <div class="stat-card">
+        <h2>{{ students_count }}</h2>
+        <p>Students</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ teachers_count }}</h2>
+        <p>Teachers</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ classes_count }}</h2>
+        <p>Classes</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ subjects_count }}</h2>
+        <p>Subjects</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ attendance_count }}</h2>
+        <p>Attendance</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ exams_count }}</h2>
+        <p>Exams</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ results_count }}</h2>
+        <p>Results</p>
+    </div>
+
+</div>
+
+{% endblock %}

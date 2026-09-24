@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>📝 Exams</h1>
+    <p>Manage examinations and exam dates</p>
+</div>
+
+<div class="stat-card" style="margin-bottom: 25px; text-align: left;">
+
+    <h2>Add Exam</h2>
+
+    <form method="POST" action="/add_exam">
+
+        <input type="text"
+               name="exam_name"
+               placeholder="Exam Name"
+               required>
+
+        <input type="number"
+               name="subject_id"
+               placeholder="Subject ID"
+               required>
+
+        <input type="date"
+               name="exam_date"
+               required>
+
+        <button type="submit">Add Exam</button>
+
+    </form>
+
+</div>
+
+<div class="stat-card">
+
+    <h2>Exam Records</h2>
+
+    <table border="1" width="100%" cellpadding="10">
+
+        <tr>
+            <th>ID</th>
+            <th>Exam Name</th>
+            <th>Subject ID</th>
+            <th>Exam Date</th>
+            <th>Action</th>
+        </tr>
+
+        {% for exam in exams %}
+
+        <tr>
+            <td>{{ exam.exam_id }}</td>
+            <td>{{ exam.exam_name }}</td>
+            <td>{{ exam.subject_id }}</td>
+            <td>{{ exam.exam_date }}</td>
+
+            <td>
+                <a href="/delete_exam/{{ exam.exam_id }}"
+                   onclick="return confirm('Delete this exam?');">
+                    Delete
+                </a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endblock %}

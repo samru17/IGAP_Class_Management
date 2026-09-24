@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>📊 Results</h1>
+    <p>Store student marks and examination results</p>
+</div>
+
+<div class="stat-card" style="margin-bottom: 25px; text-align: left;">
+
+    <h2>Add Result</h2>
+
+    <form method="POST" action="/add_result">
+
+        <input type="number"
+               name="student_id"
+               placeholder="Student ID"
+               required>
+
+        <input type="number"
+               name="subject_id"
+               placeholder="Subject ID"
+               required>
+
+        <input type="number"
+               name="exam_id"
+               placeholder="Exam ID"
+               required>
+
+        <input type="number"
+               name="marks"
+               placeholder="Marks"
+               min="0"
+               max="100"
+               step="0.01"
+               required>
+
+        <button type="submit">Add Result</button>
+
+    </form>
+
+</div>
+
+<div class="stat-card">
+
+    <h2>Result Records</h2>
+
+    <table border="1" width="100%" cellpadding="10">
+
+        <tr>
+            <th>ID</th>
+            <th>Student ID</th>
+            <th>Subject ID</th>
+            <th>Exam ID</th>
+            <th>Marks</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        {% for result in results %}
+
+        <tr>
+            <td>{{ result.result_id }}</td>
+            <td>{{ result.student_id }}</td>
+            <td>{{ result.subject_id }}</td>
+            <td>{{ result.exam_id }}</td>
+            <td>{{ result.marks }}</td>
+
+            <td>
+                {% if result.result_status == "Pass" %}
+                    <strong style="color: green;">Pass</strong>
+                {% else %}
+                    <strong style="color: red;">Fail</strong>
+                {% endif %}
+            </td>
+
+            <td>
+                <a href="/delete_result/{{ result.result_id }}"
+                   onclick="return confirm('Delete this result?');">
+                    Delete
+                </a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>👨‍🏫 Teachers</h1>
+    <p>Manage teacher information and specialization</p>
+</div>
+
+<div class="stat-card" style="margin-bottom: 25px; text-align: left;">
+
+    <h2>Add Teacher</h2>
+
+    <form method="POST" action="/add_teacher">
+
+        <input type="text"
+               name="name"
+               placeholder="Teacher Name"
+               required>
+
+        <input type="text"
+               name="specialization"
+               placeholder="Specialization"
+               required>
+
+        <input type="text"
+               name="phone"
+               placeholder="Phone Number"
+               required>
+
+        <button type="submit">Add Teacher</button>
+
+    </form>
+
+</div>
+
+<div class="stat-card">
+
+    <h2>Teacher Records</h2>
+
+    <table border="1" width="100%" cellpadding="10">
+
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Specialization</th>
+            <th>Phone</th>
+            <th>Action</th>
+        </tr>
+
+        {% for teacher in teachers %}
+
+        <tr>
+            <td>{{ teacher.teacher_id }}</td>
+            <td>{{ teacher.teacher_name }}</td>
+            <td>{{ teacher.subject_specialization }}</td>
+            <td>{{ teacher.phone }}</td>
+
+            <td>
+                <a href="/delete_teacher/{{ teacher.teacher_id }}"
+                   onclick="return confirm('Delete this teacher?');">
+                    Delete
+                </a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endblock %}

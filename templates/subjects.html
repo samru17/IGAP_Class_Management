@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>📚 Subjects</h1>
+    <p>Manage subjects associated with classes</p>
+</div>
+
+<div class="stat-card" style="margin-bottom: 25px; text-align: left;">
+
+    <h2>Add Subject</h2>
+
+    <form method="POST" action="/add_subject">
+
+        <input type="text"
+               name="subject_name"
+               placeholder="Subject Name"
+               required>
+
+        <input type="number"
+               name="class_id"
+               placeholder="Class ID"
+               required>
+
+        <button type="submit">Add Subject</button>
+
+    </form>
+
+</div>
+
+<div class="stat-card">
+
+    <h2>Subject Records</h2>
+
+    <table border="1" width="100%" cellpadding="10">
+
+        <tr>
+            <th>ID</th>
+            <th>Subject Name</th>
+            <th>Class ID</th>
+            <th>Action</th>
+        </tr>
+
+        {% for subject in subjects %}
+
+        <tr>
+            <td>{{ subject.subject_id }}</td>
+            <td>{{ subject.subject_name }}</td>
+            <td>{{ subject.class_id }}</td>
+
+            <td>
+                <a href="/delete_subject/{{ subject.subject_id }}"
+                   onclick="return confirm('Delete this subject?');">
+                    Delete
+                </a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endblock %}
