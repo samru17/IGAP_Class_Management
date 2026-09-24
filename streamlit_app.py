@@ -1,224 +1,309 @@
 import streamlit as st
+import pickle
+import numpy as np
 
-# =========================================================
+# =====================================================
 # PAGE CONFIG
-# =========================================================
+# =====================================================
 
 st.set_page_config(
-    page_title="IGAP Class Management System",
-    page_icon="🎓",
-    layout="wide",
-    initial_sidebar_state="collapsed"
+    page_title="Student Performance Prediction",
+    page_icon="💻",
+    layout="wide"
 )
 
-# =========================================================
-# CUSTOM CSS
-# =========================================================
+# =====================================================
+# BACKGROUND + CSS
+# =====================================================
 
 st.markdown("""
 <style>
 
 .stApp {
-    background-color: #f3f6fb;
+    background-image: url("https://images.unsplash.com/photo-1518770660439-4636190af475");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
-/* Top Navigation */
-.navbar {
-    background-color: #24428d;
-    padding: 18px 20px;
-    text-align: center;
-    margin: -60px -60px 35px -60px;
-}
-
-.navbar span {
-    color: white;
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0 17px;
-}
-
-/* Main Dashboard Box */
-.dashboard-box {
-    background-color: white;
-    padding: 55px 35px;
+/* Main transparent container */
+.block-container {
+    background: rgba(255, 255, 255, 0.88);
+    padding: 35px;
     border-radius: 20px;
-    box-shadow: 0 5px 18px rgba(0,0,0,0.10);
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+/* Main title */
+.main-title {
+    text-align: center;
+    color: #172554;
+    font-size: 42px;
+    font-weight: 800;
+}
+
+.subtitle {
+    text-align: center;
+    color: #334155;
+    font-size: 20px;
     margin-bottom: 30px;
 }
 
-.dashboard-title {
-    color: #24428d;
-    font-size: 40px;
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-.dashboard-subtitle {
-    color: #222;
-    font-size: 21px;
-}
-
-/* Cards */
-.card {
-    background-color: white;
-    height: 105px;
-    border-radius: 18px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.10);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 21px;
-    color: #111;
-    margin-bottom: 25px;
-    border: 1px solid #eeeeee;
-}
-
-/* Footer */
-.footer {
-    background-color: #24428d;
+/* Section title */
+.section-title {
+    background: #4c1d95;
     color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+/* Prediction result */
+.result-box {
+    padding: 20px;
+    border-radius: 15px;
     text-align: center;
-    padding: 30px;
-    margin: 50px -60px -60px -60px;
-    font-size: 19px;
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: 25px;
+}
+
+/* Button */
+.stButton > button {
+    width: 100%;
+    background-color: #4c1d95;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 12px;
+    border: none;
+}
+
+.stButton > button:hover {
+    background-color: #6d28d9;
+    color: white;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
 
-# =========================================================
-# TOP NAVIGATION
-# =========================================================
+# =====================================================
+# LOAD MODEL
+# =====================================================
 
-st.markdown("""
-<div class="navbar">
-    <span>Home</span>
-    <span>Dashboard</span>
-    <span>Students</span>
-    <span>Teachers</span>
-    <span>Classes</span>
-    <span>Subjects</span>
-    <span>Attendance</span>
-    <span>Exams</span>
-    <span>Results</span>
-</div>
-""", unsafe_allow_html=True)
+try:
+    with open("student_performance_model.pkl", "rb") as file:
+        model = pickle.load(file)
+    model_loaded = True
+
+except:
+    model_loaded = False
 
 
-# =========================================================
-# DASHBOARD HEADER
-# =========================================================
+# =====================================================
+# TITLE
+# =====================================================
 
-st.markdown("""
-<div class="dashboard-box">
+st.markdown(
+    '<div class="main-title">💻 Student Performance Prediction System</div>',
+    unsafe_allow_html=True
+)
 
-<div class="dashboard-title">
-📊 Dashboard
-</div>
-
-<div class="dashboard-subtitle">
-IGAP Private Limited - Class Management System
-</div>
-
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    '<div class="subtitle">Predict student academic performance using Machine Learning</div>',
+    unsafe_allow_html=True
+)
 
 
-# =========================================================
-# FIRST ROW
-# =========================================================
+# =====================================================
+# STUDENT INFORMATION
+# =====================================================
 
-col1, col2, col3, col4, col5 = st.columns(5)
+st.markdown(
+    '<div class="section-title">📝 Student Information</div>',
+    unsafe_allow_html=True
+)
+
+col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("""
-    <div class="card">
-    👨‍🎓 Students
-    </div>
-    """, unsafe_allow_html=True)
+
+    study_hours = st.slider(
+        "📚 Study Hours",
+        min_value=0.0,
+        max_value=15.0,
+        value=5.0,
+        step=0.5
+    )
+
+    attendance = st.slider(
+        "📅 Attendance (%)",
+        min_value=0,
+        max_value=100,
+        value=75
+    )
+
+    previous_marks = st.slider(
+        "📊 Previous Marks (%)",
+        min_value=0,
+        max_value=100,
+        value=60
+    )
 
 with col2:
-    st.markdown("""
-    <div class="card">
-    👨‍🏫 Teachers
-    </div>
-    """, unsafe_allow_html=True)
 
-with col3:
-    st.markdown("""
-    <div class="card">
-    📚 Classes
-    </div>
-    """, unsafe_allow_html=True)
+    assignment_score = st.slider(
+        "📝 Assignment Score (%)",
+        min_value=0,
+        max_value=100,
+        value=70
+    )
 
-with col4:
-    st.markdown("""
-    <div class="card">
-    📖 Subjects
-    </div>
-    """, unsafe_allow_html=True)
+    internal_marks = st.slider(
+        "📖 Internal Marks (%)",
+        min_value=0,
+        max_value=100,
+        value=65
+    )
 
-with col5:
-    st.markdown("""
-    <div class="card">
-    📝 Attendance
-    </div>
-    """, unsafe_allow_html=True)
+    practical_score = st.slider(
+        "💻 Practical Score (%)",
+        min_value=0,
+        max_value=100,
+        value=70
+    )
 
 
-# =========================================================
-# SECOND ROW
-# =========================================================
+# =====================================================
+# PREDICT BUTTON
+# =====================================================
 
-col1, col2, col3, col4, col5 = st.columns(5)
+st.markdown("<br>", unsafe_allow_html=True)
 
-with col1:
-    st.markdown("""
-    <div class="card">
-    📋 Exams
-    </div>
-    """, unsafe_allow_html=True)
+if st.button("🔮 PREDICT PERFORMANCE"):
 
-with col2:
-    st.markdown("""
-    <div class="card">
-    📊 Results
-    </div>
-    """, unsafe_allow_html=True)
+    # -------------------------------------------------
+    # If your trained model is available
+    # -------------------------------------------------
 
-with col3:
-    st.markdown("""
-    <div class="card">
-    🎯 Prediction
-    </div>
-    """, unsafe_allow_html=True)
+    if model_loaded:
+
+        try:
+
+            input_data = np.array([[
+                study_hours,
+                attendance,
+                previous_marks,
+                assignment_score,
+                internal_marks,
+                practical_score
+            ]])
+
+            prediction = model.predict(input_data)[0]
+
+            if prediction == 1 or str(prediction).lower() == "pass":
+
+                st.markdown(
+                    """
+                    <div class="result-box"
+                    style="background:rgba(34,197,94,0.20);
+                    color:#15803d;">
+                    🎉 STUDENT IS LIKELY TO PASS
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+                st.balloons()
+
+            else:
+
+                st.markdown(
+                    """
+                    <div class="result-box"
+                    style="background:rgba(239,68,68,0.20);
+                    color:#b91c1c;">
+                    ⚠️ STUDENT MAY NEED IMPROVEMENT
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+        except Exception as e:
+
+            st.warning(
+                "Model input columns do not match this prediction form."
+            )
+
+    # -------------------------------------------------
+    # Demo prediction if model cannot be used
+    # -------------------------------------------------
+
+    else:
+
+        score = (
+            study_hours * 5
+            + attendance * 0.25
+            + previous_marks * 0.20
+            + assignment_score * 0.10
+            + internal_marks * 0.10
+            + practical_score * 0.10
+        )
+
+        if score >= 70:
+
+            st.markdown(
+                """
+                <div class="result-box"
+                style="background:rgba(34,197,94,0.20);
+                color:#15803d;">
+                🎉 STUDENT IS LIKELY TO PASS
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+            st.balloons()
+
+        else:
+
+            st.markdown(
+                """
+                <div class="result-box"
+                style="background:rgba(239,68,68,0.20);
+                color:#b91c1c;">
+                ⚠️ STUDENT MAY NEED IMPROVEMENT
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
 
-# =========================================================
-# INFORMATION SECTION
-# =========================================================
+# =====================================================
+# INFORMATION
+# =====================================================
 
-st.markdown("## 🏫 IGAP Private Limited")
-
-st.info("""
-Welcome to IGAP Private Limited Class Management System.
-
-This system is designed to manage students, teachers, classes,
-subjects, attendance, examinations and academic results
-in one place.
-""")
-
-
-# =========================================================
-# FOOTER
-# =========================================================
+st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown("""
-<div class="footer">
+<div style="
+background:rgba(219,234,254,0.75);
+padding:20px;
+border-radius:15px;
+">
 
-© 2026 IGAP Private Limited<br><br>
-Class Management System
+<h2 style="color:#075985;">💡 About Prediction</h2>
+
+<p style="font-size:17px;">
+This Machine Learning system analyzes student academic
+information such as study hours, attendance, previous marks,
+assignments, internal marks and practical performance.
+</p>
 
 </div>
 """, unsafe_allow_html=True)
