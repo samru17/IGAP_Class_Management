@@ -10,13 +10,17 @@ app.secret_key = "igap_secret_key"
 # DATABASE CONNECTION
 # =========================================================
 
+import os
+import mysql.connector
+
 def get_db_connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="admin123",
-        database="igap_class_management"
+        host=os.getenv("DB_HOST", "localhost"),
+        user=os.getenv("DB_USER", "root"),
+        password=os.getenv("DB_PASSWORD", "admin123"),
+        database=os.getenv("DB_NAME", "igap_class_management")
     )
+    
 model = joblib.load("student_performance_model.pkl")
 
 # =========================================================
